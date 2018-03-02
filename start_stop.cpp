@@ -26,8 +26,9 @@ int recv(uhd::rx_streamer::sptr rx_stream, int packet_len, int nof_packets) {
 int start_rx_stream(uhd::usrp::multi_usrp::sptr usrp)
 {
   uhd::stream_cmd_t cmd(uhd::stream_cmd_t::STREAM_MODE_START_CONTINUOUS);
-  cmd.time_spec = usrp->get_time_now();
+//  cmd.time_spec = usrp->get_time_now();
   cmd.stream_now = true;
+//  cmd.time_spec += 0.2;
   usrp->issue_stream_cmd(cmd);
   return 0;
 }
@@ -66,15 +67,16 @@ int main(int argc, char **argv) {
   while(!error) {
 
     start_rx_stream(usrp);
-    if (recv(rx_stream, 1920, 300)<0) {
+    int n = recv(rx_stream, 1920, 300);
+    if (n<0) {
      std::cout << "Error" << std::endl;
      error = true; 
     } else {
      nof_restart++;
     }
     stop_rx_stream(usrp);
-    sleep(1);
-    std::cout << "Done " << nof_restart << " restarts." << std::endl;    
+//    sleep(1);
+    std::cout << "Done " << nof_restart << " restarts (" << n << " packets)" << std::endl;    
   }
   
   exit(0);
