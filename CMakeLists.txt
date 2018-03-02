@@ -11,3 +11,7 @@ target_link_libraries(change_srate ${UHD_LIBRARIES})
 
 add_executable(change_freq change_freq.cpp)
 target_link_libraries(change_freq ${UHD_LIBRARIES})
+
+add_executable(start_stop start_stop.cpp)
+target_link_libraries(start_stop ${UHD_LIBRARIES})
+
